@@ -17,19 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
-  void _answerQuestion() {
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
-    print(_questionIndex);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //return MaterialApp(home: Text('Hello Worldi!'),);
-
-    var questions = [
+  static const questions = [
       {
         'questionText':'What\'s your favourite colour?',
         'answers' : ['Black','Red','Green','White'],
@@ -43,13 +31,31 @@ class _MyAppState extends State<MyApp> {
         'answers' : ['Ronaldo','Messi','Mbappe','Neymar'],
       },
     ];
+
+  var _questionIndex = 0;
+  void _answerQuestion() {
+    
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    print(_questionIndex);
+    if(_questionIndex < questions.length) {
+
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //return MaterialApp(home: Text('Hello Worldi!'),);
+
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('My First App'),
           backgroundColor: const Color(0xFF7851A9),
         ),
-        body: Column(
+        body: _questionIndex < questions.length ? Column(
           children: [
             Question(
               questions[_questionIndex]['questionText'] as String,
@@ -58,7 +64,7 @@ class _MyAppState extends State<MyApp> {
               return Answer(_answerQuestion, answer);
             }).toList()
           ],
-        ),
+        ) : Center(child: Text('You did it!')),
       ),
     );
   }
